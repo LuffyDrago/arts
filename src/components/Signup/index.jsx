@@ -5,7 +5,7 @@ import { auth, handleUserProfile } from "./../../firebase/utils";
 
 import Button from "./../forms/Button";
 import FormInput from "../forms/FormInput";
-
+import AuthWrapper from "./../AuthWrapper";
 const initialState = {
   displayName: "",
   email: "",
@@ -64,61 +64,61 @@ class Signup extends Component {
     const { displayName, email, password, confirmPassword, errors } =
       this.state;
 
+    const configAuthWrapper = {
+      headline: "Sign Up",
+    };
+
     return (
-      <div className="signup">
-        <div className="wrap">
-          <h2>Signup</h2>
+      <AuthWrapper {...configAuthWrapper}>
+        {errors.length > 0 && (
+          <ul>
+            {errors.map((err, index) => {
+              return <li key={index}>{err}</li>;
+            })}
+          </ul>
+        )}
 
-          {errors.length > 0 && (
-            <ul>
-              {errors.map((err, index) => {
-                return <li key={index}>{err}</li>;
-              })}
-            </ul>
-          )}
+        <div className="formWrap">
+          <form onSubmit={this.handleFormSubmit}>
+            <FormInput
+              type="text"
+              name="displayName"
+              value={displayName}
+              placeholder="Full name"
+              onChange={this.handleChange}
+              //   handleChange={e => setDisplayName(e.target.value)}
+            />
 
-          <div className="formWrap">
-            <form onSubmit={this.handleFormSubmit}>
-              <FormInput
-                type="text"
-                name="displayName"
-                value={displayName}
-                placeholder="Full name"
-                onChange={this.handleChange}
-                //   handleChange={e => setDisplayName(e.target.value)}
-              />
+            <FormInput
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Email"
+              onChange={this.handleChange}
+              // handleChange={e => setEmail(e.target.value)}
+            />
 
-              <FormInput
-                type="email"
-                name="email"
-                value={email}
-                placeholder="Email"
-                onChange={this.handleChange}
-                // handleChange={e => setEmail(e.target.value)}
-              />
+            <FormInput
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Password"
+              onChange={this.handleChange}
+              //   handleChange={e => setPassword(e.target.value)}
+            />
+            <FormInput
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={this.handleChange}
+              //   handleChange={e => setConfirmPassword(e.target.value)}
+            />
 
-              <FormInput
-                type="password"
-                name="password"
-                value={password}
-                placeholder="Password"
-                onChange={this.handleChange}
-                //   handleChange={e => setPassword(e.target.value)}
-              />
-              <FormInput
-                type="password"
-                name="confirmPassword"
-                value={confirmPassword}
-                placeholder="Confirm Password"
-                onChange={this.handleChange}
-                //   handleChange={e => setConfirmPassword(e.target.value)}
-              />
-
-              <Button type="submit">Register</Button>
-            </form>
-          </div>
+            <Button type="submit">Register</Button>
+          </form>
         </div>
-      </div>
+      </AuthWrapper>
     );
   }
 }
